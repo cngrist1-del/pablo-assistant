@@ -1,0 +1,12 @@
+# Ignore files with credentials
+*_monitor*.py
+*.png
+photo.png
+bot_photo.png
+
+# Ignore openclaw config (has tokens)
+.openclaw/
+agents/
+
+# OS files
+.DS_Store
