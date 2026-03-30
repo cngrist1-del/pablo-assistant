@@ -25,7 +25,8 @@ Throttle Response is our custom-built CRM and automation system that beats eLead
 ### 2. Auto-Response Engine
 - Personalized emails in YOUR voice
 - Credit application links included
-- Follow-up algorithm: Day 1 → Day 3 → Day 7 → Day 14
+- **Standard algorithm:** Day 1 → Day 3 → Day 7 → Day 14
+- **AGGRESSIVE algorithm (Credit Approved):** Hour 0 → 2 → 4 → 8 → Day 1 → Day 2 → Day 3 (escalate)
 
 ### 3. Throttle Response CRM
 - Custom dashboard (Tecobi-style)

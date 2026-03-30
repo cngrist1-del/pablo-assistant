@@ -1,0 +1,178 @@
+         <div class="lead-info-item">
+                            <label>Source</label>
+                            <span>${lead.source || '-'}</span>
+                        </div>
+                        <div class="lead-info-item">
+                            <label>Model</label>
+                            <span>${lead.model || '-'}</span>
+                        </div>
+                    </div>
+                    ${lead.notes ? `<div class="lead-notes">${lead.notes}</div>` : ''}
+                    <div class="lead-actions">
+                        <button class="btn-sm" onclick="editLead('${lead.id}')">Edit</button>
+                        <button class="btn-sm" onclick="quickAction('${lead.id}', 'call')">Call</button>
+                        <button class="btn-sm" onclick="quickAction('${lead.id}', 'email')">Email</button>
+                        <button class="btn-sm" onclick="quickAction('${lead.id}', 'text')">Text</button>
+                        <button class="btn-sm btn-danger" onclick="deleteLead('${lead.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter Leads (Search)
+        function filterLeads() {
+            renderLeads();
+        }
+        
+        // Format Status
+        function formatStatus(status) {
+            const statuses = {
+                'scorching': 'Scorching',
+                'hot': 'Hot',
+                'warm': 'Warm',
+                'cold': 'Cold',
+                'appointment': 'Appointment',
+                'closed': 'Closed',
+                'dead': 'Dead'
+            };
+            return statuses[status] || status;
+        }
+        
+        // Open Modal
+        function openModal(type) {
+            if (type === 'lead') {
+                document.getElementById('leadForm').reset();
+                document.getElementById('leadId').value = '';
+                document.getElementById('leadModalTitle').textContent = 'Add New Lead';
+                document.getElementById('leadModal').classList.add('active');
+            } else if (type === 'appointment') {
+                // Populate lead dropdown
+                const select = document.getElementById('appointmentLead');
+                select.innerHTML = '<option value="">Select Lead</option>' + 
+                    leads.map(l => `<option value="${l.id}">${l.name}</option>`).join('');
+                document.getElementById('appointmentModal').classList.add('active');
+            }
+        }
+        
+        // Close Modal
+        function closeModal(type) {
+            document.getElementById(type + 'Modal').classList.remove('active');
+        }
+        
+        // Save Lead
+        function saveLead(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('leadId').value || Date.now().toString();
+            const lead = {
+                id,
+                name: document.getElementById('leadName').value,
+                phone: document.getElementById('leadPhone').value,
+                email: document.getElementById('leadEmail').value,
+                source: document.getElementById('leadSource').value,
+                model: document.getElementById('leadModel').value,
+                status: document.getElementById('leadStatus').value,
+                notes: document.getElementById('leadNotes').value,
+                createdAt: document.getElementById('leadId').value ? 
+                    leads.find(l => l.id === id)?.createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            const existingIndex = leads.findIndex(l => l.id === id);
+            if (existingIndex >= 0) {
+                leads[existingIndex] = lead;
+            } else {
+                leads.push(lead);
+            }
+            
+            localStorage.setItem('falcons_leads', JSON.stringify(leads));
+            closeModal('lead');
+            renderStats();
+            renderLeads();
+            showNotification('Lead saved!');
+        }
+        
+        // Edit Lead
+        function editLead(id) {
+            const lead = leads.find(l => l.id === id);
+            if (!lead) return;
+            
+            document.getElementById('leadId').value = lead.id;
+            document.getElementById('leadName').value = lead.name;
+            document.getElementById('leadPhone').value = lead.phone;
+            document.getElementById('leadEmail').value = lead.email;
+            document.getElementById('leadSource').value = lead.source;
+            document.getElementById('leadModel').value = lead.model;
+            document.getElementById('leadStatus').value = lead.status;
+            document.getElementById('leadNotes').value = lead.notes;
+            
+            document.getElementById('leadModalTitle').textContent = 'Edit Lead';
+            document.getElementById('leadModal').classList.add('active');
+        }
+        
+        // Delete Lead
+        function deleteLead(id) {
+            if (confirm('Are you sure you want to delete this lead?')) {
+                leads = leads.filter(l => l.id !== id);
+                localStorage.setItem('falcons_leads', JSON.stringify(leads));
+                renderStats();
+                renderLeads();
+                showNotification('Lead deleted');
+            }
+        }
+        
+        // Quick Action
+        function quickAction(id, action) {
+            const lead = leads.find(l => l.id === id);
+            if (!lead) return;
+            
+            // In a real app, this would integrate with your communication system
+            if (action === 'call') {
+                window.location.href = `tel:${lead.phone}`;
+            } else if (action === 'email') {
+                window.location.href = `mailto:${lead.email}`;
+            } else if (action === 'text') {
+                window.location.href = `sms:${lead.phone}`;
+            }
+        }
+        
+        // Save Appointment
+        function saveAppointment(e) {
+            e.preventDefault();
+            
+            const appointment = {
+                id: Date.now().toString(),
+                leadId: document.getElementById('appointmentLead').value,
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                notes: document.getElementById('appointmentNotes').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            appointments.push(appointment);
+            localStorage.setItem('falcons_appointments', JSON.stringify(appointments));
+            
+            // Update lead status to appointment
+            const leadIndex = leads.findIndex(l => l.id === appointment.leadId);
+            if (leadIndex >= 0) {
+                leads[leadIndex].status = 'appointment';
+                leads[leadIndex].updatedAt = new Date().toISOString();
+                localStorage.setItem('falcons_leads', JSON.stringify(leads));
+            }
+            
+            closeModal('appointment');
+            renderStats();
+            renderLeads();
+            showNotification('Appointment scheduled!');
+        }
+        
+        // Show Notification
+        function showNotification(message) {
+            const notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

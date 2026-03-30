@@ -1,0 +1,266 @@
+ 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal h2 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--primary);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Search */
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--primary);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transform: translateY(100px);
+            transition: transform 0.3s;
+            z-index: 2000;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .lead-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">FALCONS <span>FURY</span> HD</div>
+        <div class="user-info">
+            <span>BDC Cartel</span>
+        </div>
+    </header>
+    
+    <div class="stats-bar">
+        <div class="stat-card">
+            <h3>Total Leads</h3>
+            <div class="number" id="totalLeads">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Scorching</h3>
+            <div class="number" id="scorchingLeads">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Hot</h3>
+            <div class="number" id="hotLeads">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Appointments</h3>
+            <div class="number" id="appointments">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Closures</h3>
+            <div class="number" id="closures">0</div>
+        </div>
+    </div>
+    
+    <main class="main">
+        <aside class="sidebar">
+            <h2>Pipeline</h2>
+            <div class="nav-item active" data-filter="all">
+                <span>All Leads</span>
+                <span class="badge" id="allBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="scorching">
+                <span>Scorching Hot</span>
+                <span class="badge" id="scorchingBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="hot">
+                <span>Hot</span>
+                <span class="badge" id="hotBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="warm">
+                <span>Warm</span>
+                <span class="badge" id="warmBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="cold">
+                <span>Cold</span>
+                <span class="badge" id="coldBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="appointment">
+                <span>Appointments</span>
+                <span class="badge" id="appointmentBadge">0</span>
+            </div>
+            <div class="nav-item" data-filter="closed">
+                <span>Closed</span>
+                <span class="badge" id="closedBadge">0</span>
+            </div>
+            
+            <h2 style="margin-top: 1.5rem;">Quick Actions</h2>
+            <div class="nav-item" onclick="openModal('lead')">
+                <span>+ Add Lead</span>
+            </div>
+            <div class="nav-item" onclick="openModal('appointment')">
+                <span>+ Add Appointment</span>
+            </div>
+        </aside>
+        
+        <section class="content" id="mainContent">
+            <div class="content-header">
+                <h1 id="pageTitle">All Leads</h1>
+                <button class="btn btn-primary" onclick="openModal('lead')">+ Add Lead</button>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search leads by name, phone, or email..." oninput="filterLeads()">
+            </div>
+            
+            <div class="lead-grid" id="leadGrid">
+                <!-- Leads will be rendered here -->
+            </div>
+        </section>
+    </main>
+    
+    <!-- Lead Modal -->
+    <div class="modal-overlay" id="leadModal">
+        <div class="modal">
+            <h2 id="leadModalTitle">Add New Lead</h2>
+            <form id="leadForm" onsubmit="saveLead(event)">
+                <input type="hidden" id="leadId">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="leadName" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="leadPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="leadEmail">
+                </div>
+                <div class="form-group">
+                    <label>Lead Source</label>
+                    <select id="leadSource">
+                        <option value="Internet">Internet</option>
+                        <option value="Showroom">Showroom</option>
+                        <option value="Phone">Phone</option>

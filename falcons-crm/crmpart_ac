@@ -1,0 +1,168 @@
+
+                        <option value="Referral">Referral</option>
+                        <option value="Trade">Trade</option>
+                        <option value="Social">Social</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Interested Model</label>
+                    <select id="leadModel">
+                        <option value="">Select Model</option>
+                        <option value="Road Glide">Road Glide</option>
+                        <option value="Street Glide">Street Glide</option>
+                        <option value="Road King">Road King</option>
+                        <option value="Ultra Limited">Ultra Limited</option>
+                        <option value="Trike">Trike</option>
+                        <option value="Softail">Softail</option>
+                        <option value="Sportster">Sportster</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="leadStatus">
+                        <option value="scorching">Scorching Hot</option>
+                        <option value="hot">Hot</option>
+                        <option value="warm">Warm</option>
+                        <option value="cold">Cold</option>
+                        <option value="appointment">Appointment</option>
+                        <option value="closed">Closed</option>
+                        <option value="dead">Dead</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="leadNotes" placeholder="Enter any notes about this lead..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-sm" onclick="closeModal('lead')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Lead</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Appointment Modal -->
+    <div class="modal-overlay" id="appointmentModal">
+        <div class="modal">
+            <h2>Schedule Appointment</h2>
+            <form id="appointmentForm" onsubmit="saveAppointment(event)">
+                <div class="form-group">
+                    <label>Lead</label>
+                    <select id="appointmentLead" required>
+                        <option value="">Select Lead</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="appointmentNotes" placeholder="Appointment notes..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-sm" onclick="closeModal('appointment')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Saved!</div>
+    
+    <script>
+        // Data Store (Local Storage)
+        let leads = JSON.parse(localStorage.getItem('falcons_leads')) || [];
+        let appointments = JSON.parse(localStorage.getItem('falcons_appointments')) || [];
+        let currentFilter = 'all';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStats();
+            renderLeads();
+            setupNav();
+        });
+        
+        // Navigation
+        function setupNav() {
+            document.querySelectorAll('.nav-item[data-filter]').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    currentFilter = item.dataset.filter;
+                    document.getElementById('pageTitle').textContent = item.querySelector('span').textContent;
+                    renderLeads();
+                });
+            });
+        }
+        
+        // Render Stats
+        function renderStats() {
+            document.getElementById('totalLeads').textContent = leads.length;
+            document.getElementById('scorchingLeads').textContent = leads.filter(l => l.status === 'scorching').length;
+            document.getElementById('hotLeads').textContent = leads.filter(l => l.status === 'hot').length;
+            document.getElementById('appointments').textContent = appointments.length;
+            document.getElementById('closures').textContent = leads.filter(l => l.status === 'closed').length;
+            
+            // Update badges
+            document.getElementById('allBadge').textContent = leads.length;
+            document.getElementById('scorchingBadge').textContent = leads.filter(l => l.status === 'scorching').length;
+            document.getElementById('hotBadge').textContent = leads.filter(l => l.status === 'hot').length;
+            document.getElementById('warmBadge').textContent = leads.filter(l => l.status === 'warm').length;
+            document.getElementById('coldBadge').textContent = leads.filter(l => l.status === 'cold').length;
+            document.getElementById('appointmentBadge').textContent = leads.filter(l => l.status === 'appointment').length;
+            document.getElementById('closedBadge').textContent = leads.filter(l => l.status === 'closed').length;
+        }
+        
+        // Render Leads
+        function renderLeads() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let filteredLeads = leads;
+            
+            // Apply filter
+            if (currentFilter !== 'all') {
+                filteredLeads = leads.filter(l => l.status === currentFilter);
+            }
+            
+            // Apply search
+            if (searchTerm) {
+                filteredLeads = filteredLeads.filter(l => 
+                    l.name.toLowerCase().includes(searchTerm) ||
+                    (l.phone && l.phone.includes(searchTerm)) ||
+                    (l.email && l.email.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            const grid = document.getElementById('leadGrid');
+            
+            if (filteredLeads.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No leads found</h3>
+                        <p>Add a new lead or adjust your filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = filteredLeads.map(lead => `
+                <div class="lead-card ${lead.status}">
+                    <div class="lead-header">
+                        <div class="lead-name">${lead.name}</div>
+                        <span class="lead-status ${lead.status}">${formatStatus(lead.status)}</span>
+                    </div>
+                    <div class="lead-info">
+                        <div class="lead-info-item">
+                            <label>Phone</label>
+                            <span>${lead.phone || '-'}</span>
+                        </div>
+                        <div class="lead-info-item">
+                            <label>Email</label>
+                            <span>${lead.email || '-'}</span>
+                        </div>
+               

@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECOBI - Falcons Fury Automotive CRM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #f97316;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+            --bg-light: #f8fafc;
+            --bg-dark: #0f172a;
+            --text-dark: #1e293b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+        }
+        
+        body {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        
+        .top-nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary);
+        }
+        
+        .top-nav .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .top-nav .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .top-nav .nav-links a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .top-nav .nav-links a:hover,
+        .top-nav .nav-links a.active {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+        
+        .top-nav .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .top-nav .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 64px);
+        }
+        
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid var(--border);
+            padding: 20px 0;
+        }
+        
+
+        .search-bar {
+            flex: 1;
+            max-width: 300px;
+            margin: 0 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 12px 24px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+        }
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .quick-notes {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+        .quick-notes textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        .deal-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--success);
+            margin: 8px 0;
+        }
+        .action-btns .action-btn {
+            text-decoration: none;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding: 0 12px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 2px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+        
+        .sidebar-menu .icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--danger);
+            color: white;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-card .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .stat-card .stat-icon.green { background: #dcfce7; }
+        .stat-card .stat-icon.blue { background: #dbeafe; }
+        .stat-card .stat-icon.orange { background: #ffedd5; }
+        .stat-card .stat-icon.red { background: #fee2e2; }
+        
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .content-card .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .content-card .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .content-card .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .content-card .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .content-card .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .content-card .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .data-table tr:hover {
+            background: var(--bg-light);
+            cursor: pointer;
+        }
+        
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .lead-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .lead-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .lead-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .lead-details p {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-badge.approved {
+            background: #dcfce7;
+            color: var(--success);
+        }
+        
+        .status-badge.hot {
+            background: #ffedd5;
+            color: var(--accent);
+        }
+        
+        .status-badge.warm {
+            background: #fef3c7;
+            color: var(--warning);
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: var(--bg-light);
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .action-btn.green:hover {
+            background: var(--success);
+        }
+        
+        .quick-view-panel {
+            position: fixed;
+            right: -420px;
+            top: 0;
+            width: 420px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+            z-index: 200;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .quick-view-panel.open {
+            right: 0;
+        }
+        
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .panel-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .panel-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            background: var(--bg-light);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .panel-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .panel-tabs button {
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        
+        .panel-tabs button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .conversation-thread {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .message-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .message-bubble.outgoing {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message-bubble.incoming {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .message-bubble.outgoing .message-time {
+            text-align: right;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .compose-box {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-light);
+        }
+        
+        .compose-input {
+            display: flex;
+            gap: 8px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+        }
+        
+        .compose-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 13px;
+        }
+        
+        .compose-input button {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .detail-item {
+            background: var(--bg-light);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .detail-item label {
+            font-size: 11px;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .detail-item span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .empty-conversation {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="logo">
+            <div class="logo-icon">FF</div>
+            <span>Falcons Fury BDC</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Leads</a>
+            <a href="#">Customers</a>
+            <a href="#">Reports</a>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search leads by name, phone, or email..." onkeyup="searchLeads()">
+        </div>
+        <div class="user-menu">
+            <div class="user-avatar">C</div>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Lead Pipeline</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="#">
+                            <span class="icon">📥</span>
+                            New Leads
+                            <span class="sidebar-badge">1</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">🔥</span>
+                            Hot Leads
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📅</span>
+                            Appointments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">✅</span>
+                            Sold
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-title">Communication</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="#">
+                            <span class="icon">💬</span>
+                            Text Messages
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📧</span>
+                            Emails
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">📞</span>
+                            Calls
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats -->
+
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="filterLeads('all')">All</button>
+                <button class="filter-btn" onclick="filterLeads('hot')">Hot</button>
+                <button class="filter-btn" onclick="filterLeads('cold')">Cold</button>
+                <button class="filter-btn" onclick="filterLeads('appointments')">Appointments</button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">📥</div>
+                    </div>
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Scorching Hot</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue">🔥</div>
+                    </div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Hot Leads</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon orange">📅</div>
+                    </div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Appointments</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon red">❄️</div>
+                    </div>
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Dead Leads</div>
+                </div>
+            </div>
+            
+            <!-- Leads Table -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">Active Leads</h2>
+                </div>
+                
+                <table class="data-table" id="activeLeadsTable">
+                    <thead>
+                        <tr>
+                            <th>Lead</th>
+                            <th>Source</th>
+                            <th>Status</th>
+                            <th>Interest</th>
+                            <th>Last Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="openQuickView('ebony')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar">EB</div>
+                                    <div class="lead-details">
+                                        <h4>Ebony Baker</h4>
+                                        <p>(404) 824-5423</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>eLeads</td>
+                            <td><span class="status-badge approved"><span class="status-dot"></span>Credit Approved</span></td>
+                            <td>Looking for bike</td>
+                            <td>Today</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr onclick="openQuickView('dj')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar">DJ</div>
+                                    <div class="lead-details">
+                                        <h4>DJ Barker</h4>
+                                        <p>deejeandames@aol.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Cycle Trader</td>
+                            <td><span class="status-badge hot"><span class="status-dot"></span>Hot - Trade</span></td>
+                            <td>2024 Ultra Limited</td>
+                            <td>Yesterday</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr onclick="openQuickView('joseph')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar">JW</div>
+                                    <div class="lead-details">
+                                        <h4>Joseph Williams</h4>
+                                        <p>hdjoewilliams03@yahoo.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Cycle Trader</td>
+                            <td><span class="status-badge warm"><span class="status-dot"></span>Warm</span></td>
+                            <td>2024 Road Glide Limited</td>
+                            <td>Yesterday</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr onclick="openQuickView('leviwood')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar">LW</div>
+                                    <div class="lead-details">
+                                        <h4>Levi Wood</h4>
+                                        <p>(470) 330-1812</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>eLeads</td>
+                            <td><span class="status-badge hot"><span class="status-dot"></span>HOT - Unresponsive</span></td>
+                            <td>2025 Street Glide</td>
+                            <td>Today</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr onclick="openQuickView('steven')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar">SI</div>
+                                    <div class="lead-details">
+                                        <h4>Steven Ippoliti jr</h4>
+                                        <p>(954) 826-9405</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>eLeads</td>
+                            <td><span class="status-badge hot"><span class="status-dot"></span>HOT - Credit Approved</span></td>
+                            <td>TBD</td>
+                            <td>Today</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <div class="content-card" id="appointmentsCard" style="display: none;">
+                <div class="card-header">
+                    <h2 class="card-title">DESK LOG - TODAY</h2>
+                </div>
+                
+                <table class="data-table" style="margin-top: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Show</th>
+                            <th>N/U</th>
+                            <th>Customer</th>
+                            <th>Due Date/Time</th>
+                            <th>Salesperson</th>
+                            <th>Confirm</th>
+                            <th>No Show</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deskLogTable">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+                
+                <div style="display: flex; gap: 24px; padding: 16px; background: #f1f5f9; border-radius: 6px; margin-top: 16px; font-size: 13px;">
+                    <span><strong>Total:</strong> <span id="deskTotal">0</span></span>
+                    <span><strong>Confirmed:</strong> <span id="deskConfirmed">0</span></span>
+                    <span><strong>Shown:</strong> <span id="deskShown">0</span></span>
+                    <span><strong>No Show:</strong> <span id="deskNoShow">0</span></span>
+                    <span><strong>Overdue:</strong> <span id="deskOverdue">0</span></span>
+                </div>
+                
+                <div class="card-header" style="border-top: 1px solid #e2e8f0; margin-top: 24px;">
+                    <h2 class="card-title">Calendar</h2>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 16px;">
+                    <div onclick="showAppointmentsForDay(0)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Sun</div>
+                    <div onclick="showAppointmentsForDay(1)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Mon</div>
+                    <div onclick="showAppointmentsForDay(2)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Tue</div>
+                    <div onclick="showAppointmentsForDay(3)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Wed</div>
+                    <div onclick="showAppointmentsForDay(4)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Thu</div>
+                    <div onclick="showAppointmentsForDay(5)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Fri</div>
+                    <div onclick="showAppointmentsForDay(6)" style="text-align: center; padding: 8px; cursor: pointer; border-radius: 4px; background: #f1f5f9;">Sat</div>
+                </div>
+                
+                <div id="calendarAppointments" style="padding: 16px;">
+                    <p style="color: #64748b; font-size: 13px;">Click a day above to see appointments</p>
+                </div>
+            </div>
+
+            <!-- Cold Leads Section -->
+            <div class="content-card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h2 class="card-title">Cold Leads</h2>
+                </div>
+                
+                <table class="data-table" id="activeLeadsTable">
+                    <thead>
+                        <tr>
+                            <th>Lead</th>
+                            <th>Source</th>
+                            <th>Status</th>
+                            <th>Interest</th>
+                            <th>Last Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="openQuickView('levi')">
+                            <td>
+                                <div class="lead-info">
+                                    <div class="lead-avatar" style="background: #9ca3af;">LG</div>
+                                    <div class="lead-details">
+                                        <h4>Levi Glover</h4>
+                                        <p>(229) 421-9055</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Cold Lead</td>
+                            <td><span class="status-badge cold"><span class="status-dot"></span>Cold</span></td>
+                            <td>TBD</td>
+                            <td>Today</td>
+                            <td>
+                                <div class="action-btns">
+                                    <a href="tel:7702306879" class="action-btn green" title="Call">📞</a><a href="mailto:info@falconsfuryhd.com" class="action-btn" title="Email">📧</a>
+                                    <button class="action-btn" title="Email">📧</button>
+                                    <button class="action-btn" title="Call">📞</button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Quick View Panel -->
+    <div class="overlay" id="overlay" onclick="closeQuickView()"></div>
+    <div class="quick-view-panel" id="quickView">
+        <div class="panel-header">
+            <h3 id="panelTitle">Lead Details</h3>
+            <button class="panel-close" onclick="closeQuickView()">×</button>
+        </div>
+        
+        <div class="panel-tabs">
+            <button class="active" onclick="showTab('conversation')">Conversation</button>
+            <button onclick="showTab('details')">Details</button>
+        </div>
+        
+        <div class="panel-content" id="panelContent">
+            <!-- Content loaded via JavaScript -->
+        </div>
+        
+        <div class="compose-box">
+            <div class="compose-input">
+                <input type="text" placeholder="Type a message...">
+                <button>➤</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Real lead data
+        const leadsData = {
+            ebony: {
+                name: "Ebony Baker",
+                phone: "(404) 824-5423",
+                email: "ebnbaker1@gmail.com",
+                status: "HOT - Working with LoKey",
+                interest: "New rider - exploring touring/softail/trike",
+                source: "eLeads",
+                lastContact: "03/29/2026",
+                notes: "DO NOT CONTACT - Only if Chris directly instructs",
+                appointment: "03/29/2026 at 3:00 PM",
+                conversation: [
+                    { type: "incoming", text: "I submitted my credit application. What's the status?", time: "03/29/2026 9:00 AM" },
+                    { type: "outgoing", text: "WE GOT YOUR APPROVAL!!! This is your moment — getting you on your dream bike. What are you looking to ride? I'm free tomorrow morning and a couple hours in the afternoon. I'll get you on my schedule — just give me the word. If that time don't work for you, I'll make sure one of my guys takes care of you. Just let me know what works.", time: "03/29/2026 10:00 AM" },
+                    { type: "outgoing", text: "Chris spoke with Ebony over the phone. She is a new rider and does not know what direction to go in regards to what bike - touring, softail, or trike. Passed to salesperson LoKey.", time: "03/29/2026 11:00 AM" }
+                ]
+            },
+            dj: {
+                name: "DJ Barker",
+                phone: "",
+                email: "deejeandames@aol.com",
+                status: "Hot - Trade-In",
+                interest: "2024 Ultra Limited + Trade: 2020 MV Agusta",
+                source: "Cycle Trader",
+                lastContact: "03/29/2026",
+                conversation: [
+                    { type: "incoming", text: "I'm interested in the 2024 Ultra Limited. What's my approval status?", time: "03/28/2026 2:00 PM" },
+                    { type: "outgoing", text: "I see you're looking at the 2024 Ultra Limited and you're trading in your 2020 MV Agusta. That's the right move. I work with people in your credit situation on a daily basis — the $7,500 down puts us in a very strong position with the bank. Here is the link to run credit: https://creditapplication.harley-davidson.com/us/en/?dealerid=3586. It can sometimes be a little complicated when filling out, so if you need a hand, let me know. I have some of the best associates in all of Harley-Davidson. We can get your credit over the phone. Let's get you on this Harley.", time: "03/28/2026 2:30 PM" },
+                    { type: "outgoing", text: "DJ, this is Pablo w/ Falcons Fury Harley-Davidson. Checking in — still interested in the 2024 Ultra Limited? What's your timeline? Let me know where you are with this, and I'll help structure the deal. Text or call: 770-230-6879. Let's go.", time: "03/29/2026 11:30 AM" }
+                ]
+            },
+            joseph: {
+                name: "Joseph Williams",
+                phone: "",
+                email: "hdjoewilliams03@yahoo.com",
+                status: "Warm",
+                interest: "2024 Road Glide Limited",
+                source: "Cycle Trader",
+                lastContact: "03/29/2026",
+                conversation: [
+                    { type: "incoming", text: "Is this 2024 Harley-Davidson Road Glide Limited still for sale?", time: "03/28/2026 11:00 AM" },
+                    { type: "outgoing", text: "Yes, the 2024 Road Glide Limited is still available. What's your situation? Tell me what you're looking to trade in or what kind of payment you're working with, and let's get you on it. Call or text me: 770-230-6879", time: "03/28/2026 11:30 AM" },
+                    { type: "outgoing", text: "Joseph, this is Pablo w/ Falcons Fury Harley-Davidson. Checking in — still interested in the 2024 Road Glide Limited? What's your timeline? Let me know where you are with this, and I'll help structure the deal. Text or call: 770-230-6879. Let's go.", time: "03/29/2026 11:36 AM" }
+                ]
+            },
+            anetria: {
+                name: "Anetria Jackson",
+                phone: "(678) 755-6450",
+                email: "amjackson2336@yahoo.com",
+                status: "Credit Approved",
+                interest: "Looking for bike - touring",
+                source: "eLeads",
+                lastContact: "03/29/2026",
+                conversation: [
+                    { type: "incoming", text: "I submitted my credit application. What's the status?", time: "03/29/2026 10:08 AM" },
+                    { type: "outgoing", text: "Anetria, this is Pablo w/ Falcons Fury Harley-Davidson. Congratulations! WE GOT YOU APPROVED! Now let's get you on that dream bike. I know you're looking at a touring bike — which one speaks to you? Once you tell me, I'll structure the deal and get you riding. Text or call: 770-230-6879. Let's go.", time: "03/29/2026 11:21 AM" },
+                    { type: "outgoing", text: "Chris called - left voicemail. Chris sent text: 'Mrs. Jackson, this is Chris w/ Falcons Fury Harley-Davidson. WE GOT YOU APPROVED!!!!! Give me a shout when you can, and we will get this deal rolling to get you on 2 wheels!'", time: "03/29/2026 11:15 AM" },
+                    { type: "outgoing", text: "Chris called again - left voicemail at 1:35 PM", time: "03/29/2026 1:35 PM" }
+                ]
+            },
+            levi: {
+                name: "Levi Glover",
+                phone: "(229) 421-9055",
+                email: "",
+                status: "Cold",
+                interest: "TBD",
+                source: "Cold Lead",
+                lastContact: "03/29/2026",
+                conversation: [
+                    { type: "outgoing", text: "Levi, this is Chris w/ Falcons Fury Harley-Davidson. I hope the weekend has been good to you. Just following up with you, to see if you gave any more thought to the bike deal we are working for you. No pressure- just wanted to know where your heads at- so I can keep working for you.", time: "03/29/2026" },
+                    { type: "incoming", text: "Hey Chris. Think I've decided to hold off until after spring break! I'll touch base with you after", time: "03/29/2026" },
+                    { type: "outgoing", text: "I understand! Be safe and I look forward to going to work for you, to get you on a bike.", time: "03/29/2026" }
+                ]
+            },
+            leviwood: {
+                name: "Levi Wood",
+                phone: "(470) 330-1812",
+                email: "leviwood1164@gmail.com",
+                status: "HOT - Unresponsive",
+                interest: "2025 Street Glide - Approved",
+                source: "eLeads",
+                lastContact: "03/29/2026",
+                notes: "Approved credit app. Had appointment Friday to get keys to new bike. Has ghosted - not answering texts, calls, or emails.",
+                conversation: [
+                    { type: "incoming", text: "Credit application submitted", time: "03/xx/2026" },
+                    { type: "outgoing", text: "Approved! We got you on the 2025 Street Glide", time: "03/xx/2026" },
+                    { type: "outgoing", text: "Appointment set for Friday to get keys", time: "03/xx/2026" },
+                    { type: "outgoing", text: "Checking in - haven't heard back", time: "03/27/2026" },
+                    { type: "outgoing", text: "Hey Levi, checking in again. Let us know where you are.", time: "03/28/2026" },
+                    { type: "outgoing", text: "Levi, this is Pablo w/ Falcons Fury Harley-Davidson. You were approved, we had you on the 2025 Street Glide, and the appointment was set. Something came up? That approval doesn't last forever, and your bike is ready. When can you come in?", time: "03/29/2026 10:58 AM" }
+                ]
+            },
+            steven: {
+                name: "Steven Ippoliti jr",
+                phone: "(954) 826-9405",
+                email: "slippijr@yahoo.com",
+                status: "Credit Approved",
+                interest: "TBD - exploring options",
+                source: "eLeads",
+                lastContact: "03/29/2026",
+                notes: "Has approval. Loan amount wasn't what he wanted. Just started paying kidney stone - medical situation. Will check online inventory.",
+                conversation: [
+                    { type: "outgoing", text: "Steven, this is Chris w/ Falcons Fury Harley-Davidson. Got news for you — you just got credit approval. That's the green light. Now let's find you the right bike.", time: "03/28/2026" },
+                    { type: "incoming", text: "Well, the loan amount wasn't what I was wanting. I am not sure how much the amount matters. I was just trying to see what I wild be approved for. They automatically put a specific bike in the approval.", time: "03/28/2026" },
+                    { type: "outgoing", text: "Steven, the loan amount you saw is tied to a specific bike — and that request defaulted to the cheapest unit we have. The good news… you've got a solid approval. That's the hard part. From here, I can structure just about any deal we put in front of the bank — we just need to lock in the bike you actually want. What works better for you — 2:00 or a little later this afternoon?", time: "03/28/2026" },
+                    { type: "incoming", text: "I can't right now. I am starting to look, but unfortunately, I just started paying a kidney stone. I will check it your online inventory and see if you have anything in stock.", time: "03/29/2026" },
+                    { type: "outgoing", text: "kidney stones are no joke. Handle that first. What are you actually looking for? Cruiser, touring, something with some punch? Tell me what caught your eye and I'll line it up.", time: "03/29/2026" },
+                    { type: "outgoing", text: "I get where you are coming from. A lot of riders want to know they're cleared before they start getting attached to a bike. The good news is you are approved. Now it just comes down to matching that approval up with the right touring bike and structuring it the right way. If you want, tell me what kind of touring bike you have in mind — Road Glide, Street Glide, Ultra, Road King — and I'll tell you straight which lane makes the most sense based on your approval. That way you're not wasting time looking at the wrong units.", time: "03/29/2026" }
+                ]
+            }
+        };
+        
+
+        function searchLeads() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll('.data-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        }
+        
+
+
+        function markAppointmentComplete() {
+            const checkbox = document.getElementById('appointmentComplete');
+            if (checkbox && checkbox.checked) {
+                alert('Appointment marked as complete! A follow-up will be sent.');
+                // Update lead status
+                const lead = leadsData[currentLeadId];
+                if (lead) {
+                    lead.status = 'Sold - Appointment Complete';
+                    // Refresh the view
+                    openQuickView(currentLeadId);
+                }
+            }
+        }
+
+        function setReminder() {
+            const time = document.getElementById('reminderTime').value;
+            if (time) {
+                document.getElementById('reminderStatus').textContent = 'Reminder set for ' + time;
+                console.log('Reminder set for lead: ' + time);
+            }
+        }
+
+
+        function showAppointmentsTab() {
+            const tbody = document.getElementById('deskLogTable');
+            let html = '';
+            let total = 0, confirmed = 0, shown = 0, noShow = 0, overdue = 0;
+            
+            // Only show leads WITH actual appointment dates set
+            for (const [key, lead] of Object.entries(leadsData)) {
+                if (lead.appointment && lead.appointment.trim() !== '') {
+                    total++;
+                    const apptTime = lead.appointment.includes('3:00 PM') ? '3:00 PM' : 'TBD';
+                    const isOverdue = apptTime !== 'TBD' && new Date().getHours() > 15;
+                    const rowStyle = isOverdue ? 'background: #ffedd5; border-left: 4px solid #f97316;' : '';
+                    const warning = isOverdue ? '<span style="color: #f97316; font-size: 16px;">⚠️</span>' : '';
+                    
+                    html += `<tr style="${rowStyle}">
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <select style="padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                                <option>N</option>
+                                <option>U</option>
+                            </select>
+                        </td>
+                        <td style="font-weight: 600;">${lead.name} ${warning}</td>
+                        <td style="color: #2563eb;">${lead.appointment}</td>
+                        <td>${lead.salesperson || 'TBD'}</td>
+                        <td><input type="checkbox" onchange="updateDeskStats()"></td>
+                        <td><input type="checkbox" onchange="updateDeskStats()"></td>
+                    </tr>`;
+                }
+            }
+            
+            if (!html) {
+                html = '<tr><td colspan="7" style="text-align: center; padding: 24px; color: #64748b;">No appointments today</td></tr>';
+            }
+            
+            tbody.innerHTML = html;
+            document.getElementById('deskTotal').textContent = total;
+            document.getElementById('deskConfirmed').textContent = confirmed;
+            document.getElementById('deskShown').textContent = shown;
+            document.getElementById('deskNoShow').textContent = noShow;
+            document.getElementById('deskOverdue').textContent = overdue;
+        }
+        
+        function updateDeskStats() {
+            // Calculate from checkboxes
+        }
+        
+        function showAppointmentsForDay(dayNum) {
+            const container = document.getElementById('todayAppointments');
+            let html = '';
+            let total = 0;
+            let confirmed = 0;
+            let shown = 0;
+            
+            for (const [key, lead] of Object.entries(leadsData)) {
+                if (lead.appointment && lead.appointment.includes('03/29/2026')) {
+                    total++;
+                    html += `<div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; background: white;">
+                        <div>
+                            <div style="font-weight: 600;">${lead.name}</div>
+                            <div style="font-size: 13px; color: #64748b;">${lead.interest || ''}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="color: #2563eb; font-weight: 600;">${lead.appointment.split('at ')[1] || ''}</div>
+                            <div style="font-size: 12px;">Salesperson: ${lead.salesperson || 'TBD'}</div>
+                        </div>
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer;">
+                                <input type="checkbox" onchange="updateAppointmentStats()"> Confirmed
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 4px; font-size: 12px; cursor: pointer;">
+                                <input type="checkbox"> No Show
+                            </label>
+                        </div>
+                    </div>`;
+                }
+            }
+            
+            if (!html) {
+                html = '<p style="color: #64748b;">No appointments today</p>';
+            }
+            
+            container.innerHTML = html;
+            document.getElementById('totalAppts').textContent = 'Total: ' + total;
+        }
+        
+        function showAppointmentsForDay(dayNum) {
+            const container = document.getElementById('calendarAppointments');
+            let html = '<div style="padding: 12px; background: #f1f5f9; border-radius: 6px; margin-bottom: 12px;">';
+            let hasAppointments = false;
+            
+            // Only show leads with actual appointments
+            for (const [key, lead] of Object.entries(leadsData)) {
+                if (lead.appointment && lead.appointment.trim() !== '') {
+                    hasAppointments = true;
+                    html += `<div style="padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 8px; background: white;">
+                        <div style="font-weight: 600;">${lead.name}</div>
+                        <div style="color: #2563eb;">📅 ${lead.appointment}</div>
+                    </div>`;
+                }
+            }
+            
+            if (!hasAppointments) {
+                html += '<p style="color: #64748b; text-align: center; padding: 20px;">No appointments scheduled</p>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function updateAppointmentStats() {
+            // Update counts when checkboxes change
+        }
+
+        function filterLeads(type) {
+            // Hide all content cards first
+            document.querySelectorAll('.content-card').forEach(card => card.style.display = 'none');
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            
+            if (type === 'all') {
+                // Show all leads tables
+                document.querySelectorAll('.content-card').forEach(card => {
+                    if (!card.id || card.id === 'appointmentsCard') {
+                        // Skip appointments card for 'all' view
+                    } else {
+                        card.style.display = '';
+                    }
+                });
+                document.querySelector('.sidebar-section').style.display = '';
+            } else if (type === 'hot') {
+                // Show only active leads section
+                const activeCard = document.querySelector('.content-card');
+                if (activeCard) activeCard.style.display = '';
+            } else if (type === 'cold') {
+                // Show cold leads
+                const coldSection = document.querySelectorAll('.content-card');
+                coldSection.forEach(card => card.style.display = '');
+            } else if (type === 'appointments') {
+                // Show appointments desk log
+                const apptCard = document.getElementById('appointmentsCard');
+                if (apptCard) {
+                    apptCard.style.display = '';
+                    showAppointmentsTab();
+                }
+            }
+        }
+        
+        function exportCSV() {
+            let csv = 'Name,Phone,Email,Status,Interest,Last Contact\n';
+            const leads = document.querySelectorAll('.data-table tbody tr');
+            leads.forEach(row => {
+                const cols = row.querySelectorAll('td');
+                if (cols.length > 0) {
+                    const name = cols[0].textContent.trim();
+                    const source = cols[1].textContent.trim();
+                    const status = cols[2].textContent.trim();
+                    const interest = cols[3].textContent.trim();
+                    const lastContact = cols[4].textContent.trim();
+                    csv += `"${name}","${source}","${status}","${interest}","${lastContact}"\n`;
+                }
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'leads_export.csv';
+            a.click();
+        }
+
+        function openQuickView(leadId) {
+            const lead = leadsData[leadId];
+            if (!lead) return;
+            
+            document.getElementById('panelTitle').textContent = lead.name;
+            renderConversation(lead);
+            
+            document.getElementById('quickView').classList.add('open');
+            document.getElementById('overlay').classList.add('show');
+        }
+        
+        function renderConversation(lead) {
+            const content = document.getElementById('panelContent');
+            let html = '<div class="conversation-thread">';
+            
+            if (lead.conversation.length === 0) {
+                html += '<div class="empty-conversation">No conversations yet. Start one!</div>';
+            } else {
+                lead.conversation.forEach(msg => {
+                    html += `
+                        <div class="message-bubble ${msg.type}">
+                            <p>${msg.text}</p>
+                            <div class="message-time">${msg.time}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            html += '</div>';
+            
+            // Add details tab content
+            html += `
+                <div class="detail-section" style="margin-top: 20px;">
+                    <h4>Appointment</h4>
+                    <div style="font-size: 16px; color: #2563eb; font-weight: 600;">
+                        ${lead.appointment || 'No appointment set'}
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox"> <span style="font-size: 13px;">Mark as Shown</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="detail-section" style="margin-top: 20px;">
+                    <h4>Lead Details</h4>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Phone</label>
+                            <span>${lead.phone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Email</label>
+                            <span>${lead.email}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Status</label>
+                            <span>${lead.status}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Source</label>
+                            <span>${lead.source}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Interest</label>
+                            <span>${lead.interest}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Last Contact</label>
+                            <span>${lead.lastContact}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            content.innerHTML = html;
+        }
+        
+        function closeQuickView() {
+            document.getElementById('quickView').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        }
+        
+        function showTab(tab) {
+            document.querySelectorAll('.panel-tabs button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
