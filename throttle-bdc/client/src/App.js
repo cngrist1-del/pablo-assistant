@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = '/api';
 
 const styles = {
   app: { display: 'flex', height: '100vh', background: '#0a0a0a' },
