@@ -1,0 +1,54 @@
+const express = require('express');
+const nodemailer = require('nodemailer');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// Email config
+const transporter = nodemailer.createTransport({
+    host: 'smtp.portsmaster.co',
+    port: 587,
+    auth: { user: 'BDC1@falconsfuryhd.com', pass: 'tnfn zlyn qvig hnmu' }
+});
+
+// Leads storage (in-memory for now)
+let leads = [
+    {id: '1', name: 'Steven Ippoliti jr', phone: '(954) 826-9405', email: 'slippijr@yahoo.com', source: 'Internet', status: 'scorching', notes: 'Credit approved'},
+    {id: '2', name: 'Anetria Jackson', phone: '(678) 755-6450', email: 'amjackson2336@yahoo.com', source: 'Internet', status: 'scorching', notes: 'Credit approved'},
+    {id: '3', name: 'Ebony Baker', phone: '(404) 824-5423', email: 'ebnbaker1@gmail.com', source: 'Showroom', status: 'hot', notes: 'Working with LoKey - DO NOT CONTACT'},
+    {id: '4', name: 'DJ Barker', email: 'deejeandames@aol.com', source: 'Trade', status: 'hot', notes: 'Trade-in: 2020 MV Agusta'},
+    {id: '5', name: 'Joseph Williams', email: 'hdjoewilliams03@yahoo.com', source: 'Internet', status: 'hot', notes: 'Interested in Road Glide Limited'}
+];
+
+let emails = [];
+
+// API Routes
+app.get('/api/leads', (req, res) => res.json(leads));
+app.post('/api/leads', (req, res) => {
+    const idx = leads.findIndex(l => l.id === req.body.id);
+    if (idx >= 0) leads[idx] = req.body;
+    else leads.push(req.body);
+    res.json(req.body);
+});
+app.delete('/api/leads/:id', (req, res) => { leads = leads.filter(l => l.id !== req.params.id); res.json({success:true}); });
+
+app.get('/api/emails/:leadId', (req, res) => res.json(emails.filter(e => e.leadId === req.params.leadId)));
+app.post('/api/emails', (req, res) => { emails.push(req.body); res.json(req.body); });
+
+app.post('/api/send-email', async (req, res) => {
+    try {
+        await transporter.sendMail({
+            from: 'Throttle Response BDC <BDC1@falconsfuryhd.com>',
+            to: req.body.to,
+            subject: req.body.subject,
+            text: req.body.body
+        });
+        res.json({success: true});
+    } catch(e) { res.status(500).json({error: e.message}); }
+});
+
+app.use(express.static('public'));
+app.listen(3000, () => console.log('Throttle BDC running'));
