@@ -411,6 +411,19 @@ app.post('/api/leads/ingest-adf', express.text(), async (req, res) => {
   });
 });
 
+// Twilio Webhook (no auth required)
+app.post('/webhook', (req, res) => {
+  const incoming = req.body.Body || req.body || 'No message';
+  console.log('Incoming message:', incoming);
+  
+  res.set('Content-Type', 'text/xml');
+  res.send(`
+<Response>
+  <Message>Hey this is Chris with Throttle Response BDC — what bike are you looking at?</Message>
+</Response>
+  `);
+});
+
 // Serve static files
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../client/build', 'index.html')));
