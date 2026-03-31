@@ -34,12 +34,7 @@ const styles = {
   statCard: { flex: 1, background: '#111', borderRadius: '12px', padding: '20px', margin: '0 8px', border: '1px solid #222' },
   statNumber: { fontSize: '32px', fontWeight: 'bold', color: '#e53935' },
   statLabel: { fontSize: '12px', color: '#666', marginTop: '4px' },
-  pipelineStage: { padding: '8px 16px', borderRadius: '8px', margin: '4px 0', fontSize: '12px', fontWeight: '600', background: '#1a1a1a', color: '#888' },
-  tagHot: { background: '#e53935' },
-  tagNew: { background: '#2196f3' },
-  tagContacted: { background: '#ff9800' },
-  tagAppointment: { background: '#9c27b0' },
-  tagSold: { background: '#4caf50' }
+  pipelineStage: { padding: '8px 16px', borderRadius: '8px', margin: '4px 0', fontSize: '12px', fontWeight: '600', background: '#1a1a1a', color: '#888' }
 };
 
 function App() {
@@ -53,10 +48,7 @@ function App() {
   const [stats, setStats] = useState({});
 
   useEffect(() => {
-    if (token) {
-      loadLeads();
-      loadStats();
-    }
+    if (token) { loadLeads(); loadStats(); }
   }, [token]);
 
   const loadLeads = async () => {
@@ -183,7 +175,7 @@ function LeadList({ leads, selectedLead, onSelectLead }) {
           <div style={{fontSize:'12px', color:'#888', marginBottom:'4px'}}>{lead.bikeOfInterest}</div>
           <div style={styles.leadMeta}>
             <span style={styles.badge}>{lead.status}</span>
-            {lead.tags?.map(tag => <span key={tag} style={{...styles.badge, ...styles.tagHot}}>{tag}</span>)}
+            {lead.tags && JSON.parse(lead.tags).map(tag => <span key={tag} style={{...styles.badge, background: '#e53935'}}>{tag}</span>)}
           </div>
         </div>
       ))}
