@@ -1,11 +1,8 @@
 {
   "name": "pablo-assistant",
   "version": "1.0.0",
-  "main": "throttle-backend/server.js",
   "scripts": {
-    "start": "node throttle-backend/server.js"
+    "build": "cd throttle-bdc && npm install && cd client && npm install && npm run build"
   },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+  "dependencies": {}
 }
