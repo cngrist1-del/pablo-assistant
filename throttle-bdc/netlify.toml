@@ -5,3 +5,13 @@
 
 [dev]
   command = "npm start"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/crm"
+  to = "/index.html"
+  status = 200
