@@ -1,0 +1,17 @@
+[build]
+  command = "cd throttle-bdc && npm install && cd client && npm install && npm run build"
+  publish = "throttle-bdc/client/build"
+  functions = "netlify/functions"
+
+[dev]
+  command = "cd throttle-bdc && npm start"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/crm"
+  to = "/index.html"
+  status = 200
